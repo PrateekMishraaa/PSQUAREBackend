@@ -1,26 +1,40 @@
-import express from "express"
-const app = express()
-import dotenv from "dotenv"
-dotenv.config()
-const PORT = process.env.PORT || 3000
-import mongoose from "mongoose"
-import User from "./routes/Users.js"
-import Candidate from "./routes/Canditate.js"
-import cors from "cors"
+// server.js
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-mongoose.connect(process.env.MONGOURI)
-    .then(() => console.log("Connected to Database"))
-    .catch(() => console.log("Disconnected from database"))
-app.use(cors())
-app.use(express.json())
-app.use("/api", User)
-app.use("/api",Candidate)
-app.get("/", async (req, res) => {
-    console.log("hello server")
-    res.send("hello pandit ji")
-})
+import userRoutes from "./routes/Users.js";
+import candidateRoutes from "./routes/Canditate.js";
+
+dotenv.config();
+const PORT = process.env.PORT || 3000;
+
+const app = express();
+
+// CORS: allow your Vercel front‑end to hit the API
+cors({
+  origin: [
+       'https://psquare.vercel.app',
+       'https://psquarebackend.onrender.com/'
+     ],
+     credentials: true,
+});
 
 
+app.use(express.json());
 
+// ---- ROUTES ----
+app.use("/api/users", userRoutes);
+app.use("/api/candidates", candidateRoutes);
 
-app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`))
+// health check
+app.get("/", (req, res) => res.send("hello pandit ji"));
+
+// ---- DB & SERVER ----
+mongoose
+  .connect(process.env.MONGOURI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("Mongo error ➜", err.message));
+
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
