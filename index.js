@@ -11,15 +11,12 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-// ✅ Proper CORS middleware
+// ✅ Correct CORS setup
 app.use(cors({
-  origin: [
-    "https://pscomp-prateeks-projects-501ef9d0.vercel.app",
-    "https://psquarebackend-1.onrender.com"
-  ],
-  credentials: true,
+  origin: "https://pscomp.vercel.app", // your frontend domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, // only if you send cookies/auth headers
 }));
-
 
 app.use(express.json());
 
