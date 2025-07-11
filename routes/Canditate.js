@@ -34,15 +34,16 @@ router.post("/new-candidate", async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error });
   }
 });
-router.get('/', async (req, res) => {
-  try {
-    const allCandidates = await Candidate.find();
-    res.status(200).json({ message: 'All candidates fetched', allCandidates });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error', error });
-  }
-});
+router.get("/candidates",async(req,res)=>{
+    try{
+        const allcandidates = await Candidate.find()
+        console.log("all candidates",allcandidates)
+        res.status(200).json({message:"All candidates fetched",allcandidates})
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message:"Internal server error",error})
+    }
+})
 // PUT: Update candidate status by ID
 router.put("/status/:id", async (req, res) => {
   const { id } = req.params;

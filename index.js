@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -12,21 +11,17 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-// CORS: allow your Vercel front‑end to hit the API
-cors({
-  origin: [
-       'https://psquare.vercel.app',
-       'https://psquarebackend.onrender.com/'
-     ],
-     credentials: true,
-});
-
+// ✅ Proper CORS middleware
+app.use(cors({
+  origin: "http://localhost:5174",  // or your Vercel frontend
+  credentials: true,
+}));
 
 app.use(express.json());
 
 // ---- ROUTES ----
-app.use("/api/users", userRoutes);
-app.use("/api/candidates", candidateRoutes);
+app.use("/api", userRoutes);
+app.use("/api", candidateRoutes);
 
 // health check
 app.get("/", (req, res) => res.send("hello pandit ji"));
