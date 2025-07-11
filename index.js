@@ -5,15 +5,17 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 import mongoose from "mongoose"
 import User from "./routes/Users.js"
+import Candidate from "./routes/Canditate.js"
 import cors from "cors"
 
 mongoose.connect(process.env.MONGOURI)
-.then(()=>console.log("Connected to Database"))
-.catch(()=>console.log("Disconnected from database"))
+    .then(() => console.log("Connected to Database"))
+    .catch(() => console.log("Disconnected from database"))
 app.use(cors())
 app.use(express.json())
-app.use("/api",User)
-app.get("/",async(req,res)=>{
+app.use("/api", User)
+app.use("/api",Candidate)
+app.get("/", async (req, res) => {
     console.log("hello server")
     res.send("hello pandit ji")
 })
@@ -21,4 +23,4 @@ app.get("/",async(req,res)=>{
 
 
 
-app.listen(PORT,()=>console.log(`Server is running on PORT ${PORT}`))
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`))
