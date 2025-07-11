@@ -13,9 +13,13 @@ const app = express();
 
 // ✅ Proper CORS middleware
 app.use(cors({
-  origin: "http://localhost:5174",  // or your Vercel frontend
+  origin: [
+    "https://pscomp-prateeks-projects-501ef9d0.vercel.app",
+    "https://psquarebackend-1.onrender.com"
+  ],
   credentials: true,
 }));
+
 
 app.use(express.json());
 
